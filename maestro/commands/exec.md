@@ -1,11 +1,15 @@
 ---
-allowed-tools: Bash(maestro-scripts exec*)
+allowed-tools: Bash(node */dist/index.js exec*)
 description: Execute inline Maestro commands for quick testing and debugging
 ---
 
 ## Execute Maestro Commands
 
 This command executes inline Maestro commands directly without creating a flow file.
+
+### CLI Usage
+
+!`node ${CLAUDE_PLUGIN_ROOT}/dist/index.js exec --help`
 
 **Usage:** `/maestro-exec <commands>`
 

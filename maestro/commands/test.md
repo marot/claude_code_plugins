@@ -1,11 +1,15 @@
 ---
-allowed-tools: Bash(maestro-scripts test*), Read
+allowed-tools: Bash(node */dist/index.js test*), Read
 description: Execute Maestro test flow files to run mobile UI tests
 ---
 
 ## Run Maestro Test Flows
 
 This command executes Maestro test flow files on connected devices or simulators.
+
+### CLI Usage
+
+!`node ${CLAUDE_PLUGIN_ROOT}/dist/index.js test --help`
 
 **Usage:** `/maestro-test <file-paths>`
 

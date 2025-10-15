@@ -1,11 +1,15 @@
 ---
-allowed-tools: Bash(maestro-scripts docs*)
+allowed-tools: Bash(node */dist/index.js docs*)
 description: Query Maestro documentation and get syntax cheat sheet for commands
 ---
 
 ## Maestro Documentation
 
 Query the Maestro documentation API or get the command syntax cheat sheet.
+
+### CLI Usage
+
+!`node ${CLAUDE_PLUGIN_ROOT}/dist/index.js docs --help`
 
 **Usage:**
 - `/maestro-docs` - Get full cheat sheet

@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(maestro-scripts hierarchy*)
+allowed-tools: Bash(node */dist/index.js hierarchy*)
 description: Get the current device screen UI hierarchy as JSON to understand available UI elements for testing
 ---
 
@@ -7,9 +7,13 @@ description: Get the current device screen UI hierarchy as JSON to understand av
 
 This command fetches the current screen's UI element hierarchy from the connected device or simulator.
 
+### CLI Usage
+
+!`node ${CLAUDE_PLUGIN_ROOT}/dist/index.js hierarchy --help`
+
 ### Current Hierarchy
 
-!`maestro-scripts hierarchy`
+!`node ${CLAUDE_PLUGIN_ROOT}/dist/index.js hierarchy`
 
 ---
 
