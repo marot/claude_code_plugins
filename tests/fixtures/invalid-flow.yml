@@ -1,0 +1,4 @@
+appId: com.example.app
+---
+- tapO n: "Login"
+- invalidCommand
