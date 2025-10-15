@@ -1,0 +1,5 @@
+appId: com.apple.mobilesafari
+---
+- launchApp
+- assertVisible: "Safari"
+- back

@@ -1,0 +1,7 @@
+appId: com.apple.MobileAddressBook
+---
+- launchApp
+- assertVisible: "Contacts"
+- tapOn: "John Appleseed"
+- assertVisible: "Edit"
+- tapOn: "Cancel"

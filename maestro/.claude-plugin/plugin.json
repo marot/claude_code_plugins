@@ -1,0 +1,30 @@
+{
+  "name": "maestro",
+  "version": "1.0.0",
+  "description": "Claude Code plugin for Maestro mobile UI testing. Provides agents and commands for writing, executing, and debugging Maestro test flows.",
+  "author": {
+    "name": "Maestro Scripts"
+  },
+  "homepage": "https://github.com/yourusername/claude-maestro",
+  "repository": "https://github.com/yourusername/claude-maestro",
+  "license": "MIT",
+  "keywords": [
+    "maestro",
+    "mobile",
+    "testing",
+    "automation",
+    "ui-testing",
+    "ios",
+    "android"
+  ],
+  "commands": [
+    "./commands/hierarchy.md",
+    "./commands/exec.md",
+    "./commands/test.md",
+    "./commands/docs.md"
+  ],
+  "agents": [
+    "./agents/maestro-test-writer.md",
+    "./agents/maestro-debugger.md"
+  ]
+}

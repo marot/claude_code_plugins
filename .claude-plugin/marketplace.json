@@ -1,0 +1,20 @@
+{
+  "name": "marot_claude_code_plugins",
+  "version": "1.0.0",
+  "description": "Marots plugins",
+  "owner": {
+    "name": "marot",
+    "email": "marco.livio.rotili@gmail.com"
+  },
+  "metadata": {
+    "description": "Marketplace for Maestro mobile UI testing plugins for Claude Code"
+  },
+  "plugins": [
+    {
+      "name": "maestro",
+      "version": "0.1.0",
+      "description": "Maestro mobile UI testing plugin",
+      "source": "./maestro"
+    }
+  ]
+}

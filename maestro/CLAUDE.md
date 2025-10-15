@@ -181,8 +181,45 @@ Commands:
 ### Test Fixtures (`tests/fixtures/`)
 - `valid-flow.yml` - Valid Maestro flow
 - `invalid-flow.yml` - Syntax errors for validation testing
+- `test-contacts.yml` - iOS Contacts app test flow
+- `test-settings.yml` - iOS Settings app test flow
+- `test-inline-commands.yml` - Safari inline commands test
 - `mock-hierarchy.json` - Sample hierarchy response
 - `mock-cheat-sheet.md` - Sample API response
+
+### Testing with iOS System Apps
+
+For quick testing without building a custom app, use iOS Simulator built-in system apps:
+
+**Common iOS System App Bundle IDs:**
+- `com.apple.MobileAddressBook` - Contacts app
+- `com.apple.Preferences` - Settings app
+- `com.apple.mobilesafari` - Safari browser
+- `com.apple.MobileSMS` - Messages app
+- `com.apple.mobilemail` - Mail app
+- `com.apple.Maps` - Maps app
+- `com.apple.reminders` - Reminders app
+- `com.apple.mobilenotes` - Notes app
+- `com.apple.MobileStore` - App Store
+- `com.apple.weather` - Weather app
+
+**Setup Steps:**
+1. Launch iOS Simulator: `open -a Simulator`
+2. Wait for simulator to boot completely
+3. Run Maestro commands against system apps using their bundle IDs
+
+**Example Test Command:**
+```bash
+maestro test tests/fixtures/test-contacts.yml
+```
+
+**Benefits of Testing with System Apps:**
+- No app building or deployment required
+- Always available in fresh iOS Simulators
+- Sufficient UI complexity for validating CLI tools
+- Real iOS environment for testing
+
+**Note:** System apps may vary between iOS versions. Test against the iOS version your users typically target.
 
 ## Maestro Background Context
 
