@@ -5,8 +5,8 @@
   "author": {
     "name": "Maestro Scripts"
   },
-  "homepage": "https://github.com/yourusername/claude-maestro",
-  "repository": "https://github.com/yourusername/claude-maestro",
+  "homepage": "https://github.com/marot/claude_code_plugins",
+  "repository": "https://github.com/marot/claude_code_plugins",
   "license": "MIT",
   "keywords": [
     "maestro",
@@ -18,13 +18,13 @@
     "android"
   ],
   "commands": [
-    "./commands/hierarchy.md",
-    "./commands/exec.md",
-    "./commands/test.md",
-    "./commands/docs.md"
+    "commands/hierarchy.md",
+    "commands/exec.md",
+    "commands/test.md",
+    "commands/docs.md"
   ],
   "agents": [
-    "./agents/maestro-test-writer.md",
-    "./agents/maestro-debugger.md"
+    "agents/maestro-test-writer.md",
+    "agents/maestro-debugger.md"
   ]
 }
