@@ -3,155 +3,66 @@ allowed-tools: Bash(node */dist/index.js exec*)
 description: Execute inline Maestro commands for quick testing and debugging
 ---
 
-## Execute Maestro Commands
-
-This command executes inline Maestro commands directly without creating a flow file.
-
-### CLI Usage
+## CLI Help
 
 !`node ${CLAUDE_PLUGIN_ROOT}/dist/index.js exec --help`
 
-**Usage:** `/maestro-exec <commands>`
-
-### Examples
-
-**Single command:**
-```
-/maestro-exec tapOn: "Login"
-```
-
-**Multiple commands (use quotes):**
-```
-/maestro-exec "
-tapOn: Login
-inputText: user@example.com
-tapOn: Submit
-assertVisible: Welcome
-"
-```
-
-**From file:**
-```
-/maestro-exec test.yml --file
-```
-
----
-
-## How It Works
-
-The command automatically:
-1. Formats your commands (adds `appId: any` header and dashes if missing)
-2. Creates a temporary flow file
-3. Executes it on the connected device
-4. Returns the results
-5. Cleans up temporary files
-
-### Command Format
-
-Commands can be written in simplified format:
-
-**Simple (no dashes):**
-```
-tapOn: Button
-inputText: text
-scroll
-```
-
-**Standard (with dashes):**
-```
-- tapOn: Button
-- inputText: text
-- scroll
-```
-
-Both formats work - the tool automatically normalizes them.
-
-### Common Commands
+## Available Maestro Commands
 
 **Navigation:**
 - `launchApp` - Launch the app
 - `tapOn: "Text"` - Tap element by text
-- `tapOn: { id: "elementId" }` - Tap element by ID
-- `back` - Press back button (Android)
+- `tapOn: { id: "elementId" }` - Tap by ID
+- `back` - Back button (Android)
 
 **Input:**
-- `inputText: "text to type"` - Enter text in focused field
-- `eraseText` - Clear text field
+- `inputText: "text"` - Enter text
+- `eraseText` - Clear field
 
 **Scrolling:**
 - `scroll` - Scroll down
 - `scroll: { direction: "UP" }` - Scroll up
-- `scrollUntilVisible: "Text"` - Scroll until element appears
+- `scrollUntilVisible: "Text"` - Scroll to element
 
 **Assertions:**
-- `assertVisible: "Text"` - Verify element is visible
-- `assertNotVisible: "Text"` - Verify element is hidden
+- `assertVisible: "Text"` - Verify visible
+- `assertNotVisible: "Text"` - Verify hidden
 
 **Timing:**
-- `waitForAnimationToEnd` - Wait for animations to complete
+- `waitForAnimationToEnd` - Wait for animations
 
-### Use Cases
+Commands can be written with or without `- ` prefix. The tool auto-formats them.
 
-**Quick testing:**
-```
-# Test if an element is tappable
-/maestro-exec tapOn: "Settings"
-```
+## How to Use
 
-**Verify element exists:**
-```
-/maestro-exec assertVisible: "Login"
+The user provides the commands as arguments to this slash command. You should execute them using the CLI tool.
+
+**Example execution for single command:**
+```bash
+node ${CLAUDE_PLUGIN_ROOT}/dist/index.js exec "tapOn: Login"
 ```
 
-**Test a sequence:**
-```
-/maestro-exec "
-launchApp
+**Example execution for multiple commands:**
+```bash
+node ${CLAUDE_PLUGIN_ROOT}/dist/index.js exec "launchApp
 tapOn: Search
 inputText: iPhone
-tapOn: Search button
-assertVisible: Results
-"
+assertVisible: Results"
 ```
 
-**Execute from clipboard:**
-```
-# Copy commands to clipboard, then:
-/maestro-exec "$(pbpaste)"
+**Example execution from file:**
+```bash
+node ${CLAUDE_PLUGIN_ROOT}/dist/index.js exec /path/to/commands.yml --file
 ```
 
-### Prerequisites
+## Prerequisites
 
 - Device or simulator must be running
-- Maestro CLI must be installed
-- For commands like `launchApp`, app must be installed
+- Maestro CLI must be installed (`~/.maestro/bin/maestro`)
+- For `launchApp`, app must be installed on device
 
-### Troubleshooting
+## Need Help?
 
-**"Element not found":**
-- Run `/maestro-hierarchy` to see available elements
-- Check element text/ID matches exactly
-- Ensure element is visible on current screen
-
-**"Command failed":**
-- Check command syntax (use `/maestro-docs` for help)
-- Verify device is connected and responsive
-- Ensure app is in expected state
-
-**"Invalid YAML":**
-- Check for proper indentation
-- Ensure special characters are quoted
-- Use standard Maestro command format
-
-### Tips
-
-1. **Test before writing full flows**: Use exec to verify commands work
-2. **Iterate quickly**: No need to create files for simple tests
-3. **Combine with hierarchy**: Get hierarchy → identify element → exec command
-4. **Build incrementally**: Test each step before adding to full flow
-
-### Related Commands
-
-- `/maestro-hierarchy` - See available UI elements
-- `/maestro-test` - Run complete flow files
-- `/maestro-docs` - Query Maestro documentation
+- **Query docs**: Use `/maestro:docs` to get the full Maestro command cheat sheet or ask specific questions like "How do I scroll to an element?"
+- **View hierarchy**: Use `/maestro:hierarchy` to see available UI elements on the current screen
+- **Run flows**: Use `/maestro:test` to execute complete test flow files
