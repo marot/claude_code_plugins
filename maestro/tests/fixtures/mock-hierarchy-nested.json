@@ -1,0 +1,63 @@
+{
+  "attributes": {
+    "text": "Root",
+    "bounds": "[0,0][400,800]"
+  },
+  "children": [
+    {
+      "attributes": {
+        "text": "Level 1 Container",
+        "resource-id": "container_1"
+      },
+      "children": [
+        {
+          "attributes": {
+            "text": "Level 2 View",
+            "resource-id": "view_2"
+          },
+          "children": [
+            {
+              "attributes": {
+                "text": "Level 3 Layout",
+                "resource-id": "layout_3"
+              },
+              "children": [
+                {
+                  "attributes": {
+                    "text": "Level 4 Panel",
+                    "resource-id": "panel_4"
+                  },
+                  "children": [
+                    {
+                      "attributes": {
+                        "text": "Level 5 Button",
+                        "resource-id": "btn_deep",
+                        "content-desc": "deeply nested button"
+                      },
+                      "children": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "attributes": {
+        "text": "Sibling Container",
+        "resource-id": "container_sibling"
+      },
+      "children": [
+        {
+          "attributes": {
+            "text": "Another Button",
+            "resource-id": "btn_another"
+          },
+          "children": []
+        }
+      ]
+    }
+  ]
+}

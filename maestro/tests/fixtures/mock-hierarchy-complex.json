@@ -1,0 +1,104 @@
+{
+  "attributes": {
+    "text": "",
+    "resource-id": "root_view",
+    "bounds": "[0,0][400,800]"
+  },
+  "children": [
+    {
+      "attributes": {
+        "text": "Navigation Bar",
+        "resource-id": "nav_bar"
+      },
+      "children": [
+        {
+          "attributes": {
+            "text": "Back",
+            "resource-id": "btn_back",
+            "content-desc": "back button"
+          },
+          "children": []
+        },
+        {
+          "attributes": {
+            "text": "Settings",
+            "resource-id": "btn_settings"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "attributes": {
+        "text": "Main Content",
+        "resource-id": "main_content"
+      },
+      "children": [
+        {
+          "attributes": {
+            "text": "Login Form",
+            "resource-id": "form_login"
+          },
+          "children": [
+            {
+              "attributes": {
+                "text": "Username",
+                "resource-id": "input_username",
+                "content-desc": "username input field"
+              },
+              "children": []
+            },
+            {
+              "attributes": {
+                "text": "Password",
+                "resource-id": "input_password",
+                "content-desc": "password input field"
+              },
+              "children": []
+            },
+            {
+              "attributes": {
+                "text": "Login",
+                "resource-id": "btn_submit_login",
+                "content-desc": "submit login button"
+              },
+              "children": [
+                {
+                  "attributes": {
+                    "text": "",
+                    "resource-id": "icon_login",
+                    "content-desc": "login icon"
+                  },
+                  "children": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "attributes": {
+            "text": "Footer",
+            "resource-id": "footer"
+          },
+          "children": [
+            {
+              "attributes": {
+                "text": "Forgot Password?",
+                "resource-id": "link_forgot_password",
+                "content-desc": "password recovery"
+              },
+              "children": []
+            },
+            {
+              "attributes": {
+                "text": "Create Account",
+                "resource-id": "btn_signup"
+              },
+              "children": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

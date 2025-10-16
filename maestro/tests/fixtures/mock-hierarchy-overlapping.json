@@ -1,0 +1,45 @@
+{
+  "attributes": {
+    "text": "Root",
+    "bounds": "[0,0][400,800]"
+  },
+  "children": [
+    {
+      "attributes": {
+        "text": "Parent Container",
+        "resource-id": "parent_container"
+      },
+      "children": [
+        {
+          "attributes": {
+            "text": "Login Button",
+            "resource-id": "btn_login"
+          },
+          "children": []
+        },
+        {
+          "attributes": {
+            "text": "Login Input",
+            "resource-id": "input_login"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "attributes": {
+        "text": "Another Container",
+        "resource-id": "another_container"
+      },
+      "children": [
+        {
+          "attributes": {
+            "text": "Logout Button",
+            "resource-id": "btn_logout"
+          },
+          "children": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "attributes": {
+    "text": "Container",
+    "bounds": "[0,0][400,800]"
+  },
+  "children": [
+    {
+      "attributes": {
+        "text": "Login Button",
+        "resource-id": "btn_login",
+        "bounds": "[0,0][100,50]"
+      },
+      "children": []
+    },
+    {
+      "attributes": {
+        "text": "Sign Up Link",
+        "resource-id": "link_signup",
+        "bounds": "[0,60][100,80]"
+      },
+      "children": []
+    },
+    {
+      "attributes": {
+        "text": "Forgot Password",
+        "resource-id": "link_forgot",
+        "content-desc": "password recovery link",
+        "bounds": "[0,90][100,110]"
+      },
+      "children": []
+    }
+  ]
+}

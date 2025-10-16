@@ -72,16 +72,18 @@ src/
 - Critical for accepting various input formats
 
 **Configuration System** (`config.ts`):
-- Loads from environment variables (`MAESTRO_BINARY_PATH`, `MAESTRO_API_KEY`)
-- Falls back to defaults (`~/.maestro/bin/maestro`, `~/.mobiledev/authtoken`)
+- Loads from environment variables (`MAESTRO_BINARY_PATH`, `MAESTRO_API_KEY`, `MAESTRO_DEBUG_OUTPUT`)
+- Falls back to defaults:
+  - Binary: `~/.maestro/bin/maestro` or `maestro` in PATH
+  - API Key: `~/.mobiledev/authtoken`
+  - Debug Output: `.maestro/debug` (project-relative)
 - Supports `.maestrorc` config file (JSON/YAML)
 - Returns `MaestroConfig` object used throughout
 
-**Logger** (`logger.ts`):
-- Writes to `~/.maestro/mcp.log` by default
-- Format: `YYYY-MM-DD HH:mm:ss [LEVEL] [NAME] message`
-- Separate loggers per script (`createLogger('script-name')`)
-- Optional console output via `--verbose` flag
+**Logger** (`utils.ts`):
+- Writes to `~/.maestro-scripts/log.txt` by default
+- Simple timestamp-prefixed log format
+- Used for debugging CLI wrapper operations
 
 ### Script Architecture Pattern
 
@@ -151,9 +153,41 @@ Commands:
 
 ### Configuration Discovery Order
 1. Command-line flags (highest priority)
-2. Environment variables (`MAESTRO_BINARY_PATH`, `MAESTRO_API_KEY`, etc.)
+2. Environment variables:
+   - `MAESTRO_BINARY_PATH` - Path to Maestro CLI binary
+   - `MAESTRO_API_KEY` - API key for Maestro Cloud
+   - `MAESTRO_DEBUG_OUTPUT` - Debug output directory (default: `.maestro/debug`)
 3. Config file (`.maestrorc` in current directory or home)
-4. Default paths (`~/.maestro/bin/maestro`, `~/.mobiledev/authtoken`)
+4. Default paths:
+   - Binary: `~/.maestro/bin/maestro` or `maestro` in PATH
+   - API Key: `~/.mobiledev/authtoken`
+   - Debug Output: `.maestro/debug` (project-relative)
+
+### Debug Output Configuration
+
+**Why Configure Debug Output Location:**
+- By default, Maestro stores debug files in `~/.maestro/tests/<timestamp>/`
+- This location is outside the project directory, making it harder for Claude Code to access
+- Configuring debug output to a project-relative path (e.g., `.maestro/debug`) enables:
+  - Claude Code can easily read error details, screenshots, and hierarchy dumps
+  - Better debugging workflow when tests fail
+  - CI/CD systems can archive debug artifacts more easily
+
+**How It Works:**
+- The `runTest()` method automatically passes `--debug-output` and `--flatten-debug-output` flags to Maestro
+- When tests fail, error messages include the debug output path
+- Debug files include:
+  - `commands-*.json` - Error details and UI hierarchy at failure time
+  - `screenshot-*.png` - Visual state at failure
+  - `maestro.log` - Execution log (large file, use Grep to search)
+
+**Configuration:**
+```bash
+# Set via environment variable
+export MAESTRO_DEBUG_OUTPUT=".maestro/debug"
+
+# Or rely on the default (`.maestro/debug`)
+```
 
 ### API Integration
 - Base URL: `https://api.copilot.mobile.dev`

@@ -22,11 +22,17 @@ export class MaestroCli {
   async getHierarchy(): Promise<string> {
     const result = await this.exec(['hierarchy']);
 
-    if (result.exitCode !== 0) {
-      throw new Error(`Failed to get hierarchy: ${result.stderr}`);
+    // Extract JSON from stdout (Maestro may output informational text before JSON)
+    const jsonStart = Math.max(
+      result.stdout.indexOf('{'),
+      result.stdout.indexOf('[')
+    );
+
+    if (jsonStart === -1) {
+      throw new Error('No JSON found in hierarchy output');
     }
 
-    return result.stdout;
+    return result.stdout.substring(jsonStart);
   }
 
   /**
@@ -38,13 +44,7 @@ export class MaestroCli {
     const tmpFile = createTempFile(formatted);
 
     try {
-      const result = await this.exec(['test', tmpFile]);
-
-      if (result.exitCode !== 0) {
-        throw new Error(result.stderr || 'Execution failed');
-      }
-
-      return result;
+      return await this.exec(['test', tmpFile]);
     } finally {
       // Cleanup temp file
       try {
@@ -59,25 +59,46 @@ export class MaestroCli {
    * Execute Maestro test files
    */
   async runTest(files: string[]): Promise<ExecutionResult> {
-    const result = await this.exec(['test', ...files]);
+    const args = ['test'];
 
-    if (result.exitCode !== 0) {
-      throw new Error(result.stderr || 'Test execution failed');
+    // Add debug output path if configured
+    if (this.config.debugOutputPath) {
+      args.push('--debug-output', this.config.debugOutputPath);
+      args.push('--flatten-debug-output');
     }
 
-    return result;
+    args.push(...files);
+    return await this.exec(args);
+  }
+
+  /**
+   * Build enhanced error message with debug file inspection instructions
+   */
+  private buildDebugErrorMessage(originalError: string): string {
+    const debugPath = this.config.debugOutputPath || '~/.maestro/tests/<timestamp>';
+
+    return `${originalError}
+
+Debug files available at: ${debugPath}
+
+Files to inspect:
+- commands-*.json: Contains error details and UI hierarchy at time of failure (hierarchy in error.hierarchyRoot field)
+- screenshot-*.png: Visual state at failure
+- maestro.log: Large file - use Grep to search for specific errors instead of reading entire file`;
   }
 
   /**
    * Execute Maestro CLI command via subprocess
+   * Rejects on failure (non-zero exit code or spawn error)
    */
   private exec(args: string[]): Promise<ExecutionResult> {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       log(`Executing: ${this.config.binaryPath} ${args.join(' ')}`);
 
       const proc = spawn(this.config.binaryPath, args);
       let stdout = '';
       let stderr = '';
+      let settled = false;
 
       proc.stdout.on('data', (data) => {
         stdout += data.toString();
@@ -88,23 +109,42 @@ export class MaestroCli {
       });
 
       proc.on('close', (code) => {
+        if (settled) return;
+        settled = true;
+
         const exitCode = code ?? 1;
         log(`Exit code: ${exitCode}`);
 
-        resolve({
+        const result = {
           stdout: stdout.trim(),
           stderr: stderr.trim(),
           exitCode,
-        });
+        };
+
+        if (exitCode !== 0) {
+          // Prefer stderr, but include stdout if stderr is empty
+          const errorMsg =
+            stderr.trim() ||
+            stdout.trim() ||
+            `Command exited with code ${exitCode}`;
+          log(`Command failed: ${errorMsg}`);
+
+          // Add debug file inspection instructions
+          const enhancedError = this.buildDebugErrorMessage(errorMsg);
+
+          reject(new Error(enhancedError));
+        } else {
+          resolve(result);
+        }
       });
 
       proc.on('error', (err) => {
-        log(`Process error: ${err.message}`);
-        resolve({
-          stdout: '',
-          stderr: `Failed to execute Maestro: ${err.message}`,
-          exitCode: 1,
-        });
+        if (settled) return;
+        settled = true;
+
+        const errorMsg = `Failed to execute Maestro: ${err.message}`;
+        log(`Process error: ${errorMsg}`);
+        reject(new Error(errorMsg));
       });
     });
   }
