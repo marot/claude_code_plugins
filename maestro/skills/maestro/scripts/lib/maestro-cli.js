@@ -30,7 +30,14 @@ export class MaestroCli {
         const formatted = formatFlow(code);
         const tmpFile = createTempFile(formatted);
         try {
-            return await this.exec(['test', tmpFile]);
+            const args = ['test'];
+            // Add debug output path if configured
+            if (this.config.debugOutputPath) {
+                args.push('--debug-output', this.config.debugOutputPath);
+                args.push('--flatten-debug-output');
+            }
+            args.push(tmpFile);
+            return await this.exec(args);
         }
         finally {
             // Cleanup temp file
